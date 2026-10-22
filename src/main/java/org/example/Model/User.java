@@ -11,12 +11,14 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
+public class User implements Serializable
+{
     private int id;
     private String login;
     private byte[] password;
 
-    public User(String login, byte[] password) {
+    public User(String login, byte[] password)
+    {
         this.login = login;
         this.password = password;
     }
