@@ -8,6 +8,9 @@
     <artifactId>STSR_4</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- КРИТИЧНО ВАЖНО ДЛЯ ВЕБ-ПРИЛОЖЕНИЯ -->
+    <packaging>war</packaging>
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -19,35 +22,84 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.3</version> <!-- Актуальная версия -->
+            <version>42.7.3</version>
         </dependency>
 
-        <!-- Hibernate ORM -->
+        <!-- Hibernate (если не используете в этой лабе, можно удалить, но пусть будет) -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.6.13.Final</version> <!-- ИСПРАВЛЕНО: реальная версия -->
+            <version>6.6.13.Final</version>
         </dependency>
-
-        <!-- Jakarta Persistence API (обязательно для работы аннотаций @Entity) -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
 
-        <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <!-- Логирование (Log4j2) -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.23.1</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.26.1</version>
-            <scope>compile</scope>
+            <version>2.23.1</version>
         </dependency>
+
+        <!-- Утилиты (обновлено с 3.0) -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+
+        <!-- Servlet API (предоставляется Tomcat-ом) -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSP API (нужен для компиляции JSP в IDE) -->
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSTL (для тегов <c:forEach> в JSP) -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!-- Lombok (обновлено для Java 21) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>STSR_4</finalName>
+        <plugins>
+            <!-- Плагин для сборки WAR без обязательного web.xml -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
