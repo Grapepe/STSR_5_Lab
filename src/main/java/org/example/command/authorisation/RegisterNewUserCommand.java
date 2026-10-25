@@ -43,12 +43,11 @@ public class RegisterNewUserCommand implements Command {
         byte[] pass = HashPassword.getHash(password.get());
         User user = new User(login.get(), pass);
         UserService userService = new UserService();
-        int userCount = userService.save(user);
-        if (userCount != 0) {
-            logger.info("user was registered: login:" + login + " password:" + password);
+        Integer userCount = userService.save(user);
+        if (userCount != null && userCount != 0) {
+            logger.info("user was registered: login:" + login);
             return forwardToLogin(request);
         } else {
-            logger.info("invalid login or password format was received:" + login + " " + password);
             return forwardToRegisterWithError(request, REGISTER_ERROR, REGISTER_ERROR_MESSAGE_IF_EXIST);
         }
     }

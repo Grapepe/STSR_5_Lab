@@ -98,7 +98,6 @@ public abstract class AbstractRepository<T> implements Repository<T> {
                     return resultSet.getInt(1);
                 }
             }
-
             return null;
         } catch (SQLException e) {
             throw new RepositoryException(e.getMessage(), e);

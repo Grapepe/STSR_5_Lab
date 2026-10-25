@@ -51,15 +51,26 @@ public class ConnectionPool {
     private void init() {
         ResourceBundle resource = ResourceBundle.getBundle(PROPERTY_PATH, Locale.getDefault());
 
+        String driver = resource.getString("db.driver");
         String url = resource.getString("db.url");
         String user = resource.getString("db.user");
         String password = resource.getString("db.password");
         int poolSize = Integer.parseInt(resource.getString("db.poolsize"));
 
+        // Явно загружаем драйвер, чтобы он зарегистрировался в DriverManager
+        try {
+            Class.forName(driver);
+            logger.info("Драйвер БД успешно загружен: " + driver);
+        } catch (ClassNotFoundException e) {
+            logger.error("Драйвер БД не найден в classpath: " + driver, e);
+            throw new RuntimeException("Драйвер БД не найден в classpath: " + driver, e);
+        }
+
         for (int i = 0; i < poolSize; i++) {
             try {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 freeConnections.add(connection);
+                logger.info("Соединение " + (i + 1) + " успешно создано");
             } catch (SQLException e) {
                 logger.error("Пул не может быть проинициализирован", e);
                 throw new RuntimeException("Пул не может быть проинициализирован", e);

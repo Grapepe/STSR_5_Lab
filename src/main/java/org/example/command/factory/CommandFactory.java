@@ -12,15 +12,14 @@ import org.example.command.groupperson.WelcomeCommand;
 public class CommandFactory {
     public static Command create(String command) {
         if (command == null || command.isEmpty()) {
-            return new LoginPageCommand();       // дефолт вместо исключения
+            return new LoginPageCommand();
         }
         command = command.toUpperCase();
-        System.out.println(command);
         CommandType commandEnum;
         try {
             commandEnum = CommandType.valueOf(command);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid command: " + command);
+            return new LoginPageCommand();
         }
         Command resultCommand;
         switch (commandEnum) {
@@ -50,4 +49,6 @@ public class CommandFactory {
         }
         return resultCommand;
     }
+
+
 }

@@ -13,11 +13,13 @@ import org.example.util.pages.Page;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;      // ← ДОБАВИТЬ
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/controller")                        // ← ДОБАВИТЬ
 public class Controller extends HttpServlet {
     private static final String COMMAND = "command";
     private static final String ERROR_MESSAGE = "error_message";
@@ -29,17 +31,19 @@ public class Controller extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse
-            response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String command = request.getParameter(COMMAND);
         LOGGER.info(COMMAND + "= " + command);
         Command action = CommandFactory.create(command);
@@ -53,19 +57,21 @@ public class Controller extends HttpServlet {
         }
         String page = commandResult.getPage();
         if (commandResult.isRedirect()) {
-            sendRedirect(response, page);
+            sendRedirect(request, response, page);
         } else {
             dispatch(request, response, page);
         }
     }
 
-    private void dispatch(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
+    private void sendRedirect(HttpServletRequest request, HttpServletResponse response, String page)
+            throws IOException {
+        response.sendRedirect(request.getContextPath() + page);
+    }
+
+    private void dispatch(HttpServletRequest request, HttpServletResponse response, String page)
+            throws ServletException, IOException {
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);
-    }
-
-    private void sendRedirect(HttpServletResponse response, String page) throws IOException {
-        response.sendRedirect(page);
     }
 }
