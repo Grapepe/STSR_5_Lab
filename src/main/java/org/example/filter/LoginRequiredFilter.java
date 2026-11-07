@@ -25,11 +25,16 @@ public class LoginRequiredFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws ServletException, IOException {
+
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+
         HttpServletRequest request = (HttpServletRequest) req;
+
         String command = request.getParameter(COMMAND);
         logger.info("Filter is working " + COMMAND + "= " + command);
 
-        if (!WELCOME.equals(command)) {          // ← WELCOME.equals, а не command.equals
+        if (!WELCOME.equals(command)) {
             chain.doFilter(req, resp);
         } else if (request.getSession().getAttribute(SessionAttribute.NAME) != null) {
             chain.doFilter(req, resp);

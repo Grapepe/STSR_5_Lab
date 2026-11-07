@@ -44,10 +44,17 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         String command = request.getParameter(COMMAND);
+
         LOGGER.info(COMMAND + "= " + command);
+
         Command action = CommandFactory.create(command);
         CommandResult commandResult;
+
         try {
             commandResult = action.execute(request, response);
         } catch (ServiceException | IncorrectDataException e) {
@@ -55,14 +62,15 @@ public class Controller extends HttpServlet {
             request.setAttribute(ERROR_MESSAGE, e.getMessage());
             commandResult = new CommandResult(Page.ERROR_PAGE.getPage(), false);
         }
+
         String page = commandResult.getPage();
+
         if (commandResult.isRedirect()) {
             sendRedirect(request, response, page);
         } else {
             dispatch(request, response, page);
         }
     }
-
     private void sendRedirect(HttpServletRequest request, HttpServletResponse response, String page)
             throws IOException {
         response.sendRedirect(request.getContextPath() + page);

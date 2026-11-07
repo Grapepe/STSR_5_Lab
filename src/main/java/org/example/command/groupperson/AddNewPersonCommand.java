@@ -29,6 +29,9 @@ public class AddNewPersonCommand implements Command {
         Optional<String> newName = of(request).map(r -> r.getParameter(NEWNAME));
         Optional<String> newPhone = of(request).map(r -> r.getParameter(NEWPHONE));
         Optional<String> newEmail = of(request).map(r -> r.getParameter(NEWEMAIL));
+
+        logger.info("Полученное имя: {}", newName.orElse("null"));
+        logger.info("Кодировка запроса: {}", request.getCharacterEncoding());
         if (isEmpty(newName.get()) || isEmpty(newPhone.get()) || isEmpty(newEmail.get())) {
             logger.info("missing parameter for new person in addition mode");
             request.setAttribute(ERROR_MESSAGE, ERROR_MESSAGE_TEXT);

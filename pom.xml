@@ -89,7 +89,7 @@
     </dependencies>
 
     <build>
-        <finalName>STSR_4</finalName>
+        <finalName>STSR_5</finalName>
         <plugins>
             <!-- Плагин для сборки WAR без обязательного web.xml -->
             <plugin>
