@@ -7,6 +7,7 @@ import org.example.command.authorisation.LoginCommand;
 import org.example.command.authorisation.RegisterNewUserCommand;
 import org.example.command.authorisation.SignOutCommand;
 import org.example.command.groupperson.AddNewPersonCommand;
+import org.example.command.groupperson.ShowDisciplinesCommand;
 import org.example.command.groupperson.WelcomeCommand;
 
 public class CommandFactory {
@@ -43,6 +44,9 @@ public class CommandFactory {
                 break;
             case REGISTRATION_PAGE:
                 resultCommand = new RegisterPageCommand();
+                break;
+            case SHOW_DISCIPLINES:
+                resultCommand = new ShowDisciplinesCommand();
                 break;
             default:
                 return new LoginPageCommand();

@@ -9,16 +9,17 @@
 </head>
 <body>
 
-<nav>
-    <a href="${pageContext.request.contextPath}/controller?command=login_page">
-        Вход
-    </a>
-
-    |
-
-    <a href="${pageContext.request.contextPath}/controller?command=sign_out">
-        Выйти
-    </a>
+<nav role="navigation" class="navbar navbar-default">
+    <div>
+        <nav class="menu">
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/controller?command=login_page">Login</a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/controller?command=sign_out">Logout</a></li>
+                <!-- ДОБАВЬТЕ ЭТУ СТРОКУ: -->
+                <li><a href="${pageContext.request.contextPath}/controller?command=show_disciplines">Дисциплины</a></li>
+            </ul>
+        </nav>
+    </div>
 </nav>
 
 <h2>Список вашей группы</h2>

@@ -5,6 +5,7 @@ import java.util.Locale;
 public class BuilderFactory {
     private static final String USER = "user";
     private static final String PERSON = "person";
+    private static final String DISCIPLINE = "discipline"; // <-- ИСПРАВЛЕНО: убрали 's' на конце
     private static final String MESSAGE = "Unknown builder name: ";
 
     @SuppressWarnings("unchecked")
@@ -20,6 +21,9 @@ public class BuilderFactory {
             case PERSON:
             case "persons":
                 return (Builder<T>) new PersonBuilderFactory();
+            case DISCIPLINE:       // <-- Теперь это "discipline"
+            case "disciplines":    // <-- А это "disciplines"
+                return (Builder<T>) new DisciplineBuilderFactory();
             default:
                 throw new IllegalArgumentException(MESSAGE + builderName);
         }

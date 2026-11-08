@@ -17,6 +17,7 @@ public class LoginRequiredFilter implements Filter {
     private static final String ERROR_MESSAGE = "error_message";
     private static final String ERROR_TEXT = "Нет авторизации для выполнения данной команды";
     private static final Logger logger = LogManager.getLogger(LoginRequiredFilter.class.getName());
+    private static final String SHOW_DISCIPLINES = "show_disciplines"; // Новая команда
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,20 +26,21 @@ public class LoginRequiredFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws ServletException, IOException {
-
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-
+        // ... установка кодировки
         HttpServletRequest request = (HttpServletRequest) req;
-
         String command = request.getParameter(COMMAND);
         logger.info("Filter is working " + COMMAND + "= " + command);
 
-        if (!WELCOME.equals(command)) {
+        // Если команда НЕ требует авторизации - пропускаем
+        if (!WELCOME.equals(command) && !SHOW_DISCIPLINES.equals(command)) {
             chain.doFilter(req, resp);
-        } else if (request.getSession().getAttribute(SessionAttribute.NAME) != null) {
+        }
+        // Если команда требует авторизации, проверяем сессию
+        else if (request.getSession().getAttribute(SessionAttribute.NAME) != null) {
             chain.doFilter(req, resp);
-        } else {
+        }
+        // Если сессии нет - кидаем на ошибку
+        else {
             request.setAttribute(ERROR_MESSAGE, ERROR_TEXT);
             request.getRequestDispatcher(Page.ERROR_PAGE.getPage()).forward(req, resp);
         }

@@ -21,6 +21,9 @@ public class RepositoryCreator implements AutoCloseable {
         return new PersonRepository(connection);
     }
 
+    public DisciplineRepository getDisciplineRepository() {
+        return new DisciplineRepository(connection);
+    }
     @Override
     public void close() {
         connectionPool.releaseConnection(connection);

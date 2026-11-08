@@ -57,7 +57,6 @@ public class ConnectionPool {
         String password = resource.getString("db.password");
         int poolSize = Integer.parseInt(resource.getString("db.poolsize"));
 
-        // Явно загружаем драйвер, чтобы он зарегистрировался в DriverManager
         try {
             Class.forName(driver);
             logger.info("Драйвер БД успешно загружен: " + driver);
